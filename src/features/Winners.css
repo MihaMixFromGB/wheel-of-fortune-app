@@ -1,0 +1,30 @@
+.winners {
+  display: flex;
+  flex-direction: column;
+  min-width: 325px;
+  gap: 15px;
+  margin-left: 15px;
+  padding: 15px 15px 23px 15px;
+  background: linear-gradient(180deg, #3598df 0%, #006bb8 100%);
+  box-shadow: inset 1px 5px 4px #1b379f;
+  border-radius: 15px;
+}
+
+.winners h2 {
+  margin: 0;
+  font-family: "Luckiest Guy";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.7em;
+  /* line-height: 30px; */
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 1080px) {
+  .winners {
+    margin-top: 15px;
+    margin-left: 0px;
+  }
+}

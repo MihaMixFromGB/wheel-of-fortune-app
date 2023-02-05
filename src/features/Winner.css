@@ -1,0 +1,58 @@
+.winner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
+  background: linear-gradient(180deg, #62b5f0 0%, #046eba 100%);
+  box-shadow: 1px 3px 3px rgba(16, 46, 131, 0.5);
+  border-radius: 5px;
+}
+.winner_text {
+  margin: 0;
+  font-family: "Gotham Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  /* line-height: 13px; */
+  color: #ffffff;
+  text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.25);
+}
+.winner__user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.winner__user-info img {
+  margin-right: 5px;
+  width: 38px;
+  height: 38px;
+  background: #fff;
+  border-radius: 100%;
+}
+.winner__prize {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.winner__prize_item {
+  margin-right: 20px;
+}
+.winner__prize_item span {
+  margin-left: 4px;
+}
+.winner__prize_jackpot {
+  margin-right: 13px;
+  font-family: "Luckiest Guy";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  /* line-height: 14px; */
+  text-align: center;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #ffd64b 0%, #c68600 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* text-fill-color: transparent; */
+  text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.25);
+}

@@ -1,0 +1,39 @@
+.button__container {
+  position: relative;
+  width: 130.3px;
+  height: 55px;
+  background: #8a0000;
+  border-radius: 10px;
+}
+
+.button__container button {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 5px;
+  box-sizing: border-box;
+  background: linear-gradient(241.78deg, #bc0000 27.02%, #8b0000 82.05%)
+      padding-box,
+    linear-gradient(45deg, #ffcd7e, #e18a00) border-box;
+  border-radius: 10px;
+  border: 3px solid transparent;
+  /* button's label */
+  padding: 0 15px;
+  font-family: "Luckiest Guy";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.1em;
+  /* line-height: 20px; */
+  text-align: center;
+  letter-spacing: 1px;
+  color: #fac269;
+  text-transform: uppercase;
+  text-shadow: -1px -1px 0px #b46e00;
+}
+
+.button__container button:active {
+  /* transform: translateY(2px); */
+  bottom: 0;
+}

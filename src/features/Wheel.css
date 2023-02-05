@@ -1,0 +1,15 @@
+.wheel__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 200px;
+  min-height: 200px;
+  width: 100%;
+  background: linear-gradient(180deg, #3496df 11.29%, #016cb9 94.98%);
+  box-shadow: inset 1px 5px 4px #1b379f;
+  border-radius: 15px;
+}
+
+.wheel__container canvas {
+  width: 100%;
+}
