@@ -22,8 +22,8 @@ const Toolbar = ({ socket, userId, onSpin }) => {
     });
     socket.emit("balance:init", userId, (response) => {
       setBalance(response.balance);
+      SetEnableButton(true);
     });
-    SetEnableButton(true);
 
     socket.on("jackpot", (jackpot) => {
       setJackpot(jackpot);
