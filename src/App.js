@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import bridge from "@vkontakte/vk-bridge";
 import io from "socket.io-client";
 
@@ -8,6 +8,9 @@ import Winners from "./features/Winners";
 import Congrats from "./features/Congrats";
 
 import "./App.css";
+
+const SOCKET_SERVER = "https://wheel-of-fortune-api.onrender.com";
+// const SOCKET_SERVER = "http://localhost:3000";
 
 const App = () => {
   const sections = ["Jackpot", "250", "400", "10", "100", "150", "200", "750"];
@@ -22,14 +25,15 @@ const App = () => {
   const [prize, setPrize] = useState("");
   const [showCongrats, setShowCongrats] = useState(false);
 
-  const socketRef = useRef(io("https://wheel-of-fortune-api.onrender.com"));
+  const [socket] = useState(() => io(SOCKET_SERVER));
 
   const addWinner = useCallback(
     (section) => {
       const prize = sections[section];
       setPrize(prize);
       setShowCongrats(true);
-      socketRef.current.emit("winner", {
+      socket.emit("winner", {
+        userId: user.id,
         name: user.name,
         avatar: user.avatar,
         prize,
@@ -39,22 +43,23 @@ const App = () => {
   );
 
   useEffect(() => {
-    const socket = socketRef.current;
-
     socket.on("connect", () => {
       socket.emit("winners:init", (response) => {
         setWinners(response.winners.reverse());
       });
     });
-    socket.on("disconnect", () => {
-      setTimeout(() => {
-        socketRef.current = io("https://wheel-of-fortune-api.onrender.com");
-      }, 3000);
+    socket.on("disconnect", (reason) => {
+      if (reason === "io server disconnect") {
+        socket.connect();
+      }
     });
 
     return () => {
       socket.off("connect");
       socket.off("disconnect");
+      if (socket.connected) {
+        socket.disconnect();
+      }
     };
   }, []);
 
@@ -68,7 +73,6 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const socket = socketRef.current;
     socket.on("winner", (winner) => {
       setWinners([winner, ...winners]);
     });
@@ -87,7 +91,7 @@ const App = () => {
       <div className="app__container">
         <div className="app__playground">
           <Wheel sections={sections} />
-          <Toolbar socketRef={socketRef} userId={user.id} onSpin={addWinner} />
+          <Toolbar socket={socket} userId={user.id} onSpin={addWinner} />
         </div>
         <Winners winners={winners} />
       </div>

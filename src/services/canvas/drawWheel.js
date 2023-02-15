@@ -174,12 +174,10 @@ async function spinTo(winner, duration) {
   });
 }
 
-setInterval(function () {
-  const { innerWidth, innerHeight } = getSize();
-  let sz = innerWidth + "/" + innerHeight;
-  if (csz !== sz) {
-    csz = sz;
+if (document.defaultView) {
+  const window = document.defaultView;
+  window.addEventListener("resize", () => {
     wheels = frame = null;
     repaint(angle);
-  }
-}, 10);
+  });
+}
