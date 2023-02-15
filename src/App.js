@@ -57,7 +57,9 @@ const App = () => {
     return () => {
       socket.off("connect");
       socket.off("disconnect");
-      socket.disconnect();
+      if (socket.connected) {
+        socket.disconnect();
+      }
     };
   }, []);
 
