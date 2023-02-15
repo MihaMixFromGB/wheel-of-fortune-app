@@ -10,7 +10,8 @@ import "./Toolbar.css";
 const Toolbar = ({ socket, userId, onSpin }) => {
   const [jackpot, setJackpot] = useState(0);
   const [balance, setBalance] = useState(0);
-  const [enableButton, SetEnableButton] = useState(false);
+  const [enableButton, setEnableButton] = useState(false);
+  const [runningWheel, setRunningWheel] = useState(false);
 
   useEffect(() => {
     if (!socket) {
@@ -22,15 +23,19 @@ const Toolbar = ({ socket, userId, onSpin }) => {
     });
     socket.emit("balance:init", userId, (response) => {
       setBalance(response.balance);
-      SetEnableButton(true);
+      setEnableButton(true);
     });
 
     socket.on("jackpot", (jackpot) => {
       setJackpot(jackpot);
     });
+    socket.on("balance", (balance) => {
+      setBalance(balance);
+    });
 
     return () => {
       socket.off("jackpot");
+      socket.off("balance");
     };
   }, [socket, userId]);
 
@@ -44,9 +49,10 @@ const Toolbar = ({ socket, userId, onSpin }) => {
         <Button
           label="SPIN WHEEL"
           onClick={() => {
-            if (!socket) {
+            if (!socket || runningWheel) {
               return;
             }
+            setRunningWheel(true);
             socket.emit("bet", userId, async (response) => {
               if (!response.ok) {
                 // блокирует основной поток в браузере до закрытия окна
@@ -57,6 +63,7 @@ const Toolbar = ({ socket, userId, onSpin }) => {
 
               setBalance(response.balance);
               const winSection = await spinWheel();
+              setRunningWheel(false);
               onSpin(winSection);
             });
           }}

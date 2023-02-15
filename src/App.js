@@ -10,6 +10,7 @@ import Congrats from "./features/Congrats";
 import "./App.css";
 
 const SOCKET_SERVER = "https://wheel-of-fortune-api.onrender.com";
+// const SOCKET_SERVER = "http://localhost:3000";
 
 const App = () => {
   const sections = ["Jackpot", "250", "400", "10", "100", "150", "200", "750"];
@@ -24,7 +25,7 @@ const App = () => {
   const [prize, setPrize] = useState("");
   const [showCongrats, setShowCongrats] = useState(false);
 
-  const [socket, setSocket] = useState(() => io(SOCKET_SERVER));
+  const [socket] = useState(() => io(SOCKET_SERVER));
 
   const addWinner = useCallback(
     (section) => {
@@ -32,6 +33,7 @@ const App = () => {
       setPrize(prize);
       setShowCongrats(true);
       socket.emit("winner", {
+        userId: user.id,
         name: user.name,
         avatar: user.avatar,
         prize,
@@ -46,10 +48,10 @@ const App = () => {
         setWinners(response.winners.reverse());
       });
     });
-    socket.on("disconnect", () => {
-      setTimeout(() => {
-        setSocket(io(SOCKET_SERVER));
-      }, 3000);
+    socket.on("disconnect", (reason) => {
+      if (reason === "io server disconnect") {
+        socket.connect();
+      }
     });
 
     return () => {
