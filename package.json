@@ -4,6 +4,7 @@
   "scripts": {
     "start": "cross-env PORT=10888 HTTPS=true react-scripts start",
     "build": "react-scripts build",
+    "build:fb": "craco build && copyfiles fbapp-config.json build",
     "predeploy": "npm run build",
     "deploy": "vk-miniapps-deploy"
   },
@@ -28,6 +29,8 @@
     "socket.io-client": "^4.5.4"
   },
   "devDependencies": {
+    "@craco/craco": "^6.4.5",
+    "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "react-hot-loader": "^4.13.0",
     "react-scripts": "^4.0.3"

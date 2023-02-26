@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import bridge from "@vkontakte/vk-bridge";
+// import bridge from "@vkontakte/vk-bridge";
 import io from "socket.io-client";
 
 import Wheel from "./features/Wheel";
@@ -64,11 +64,24 @@ const App = () => {
   }, []);
 
   useEffect(async () => {
+    /*
     const user = await bridge.send("VKWebAppGetUserInfo");
     setUser({
       id: user.id,
       name: `${user.first_name} ${user.last_name}`,
       avatar: user.photo_100,
+    });
+    */
+
+    // Init Facebook Instant Games SDK
+    FBInstant.initializeAsync().then(async () => {
+      // This indicates that the game has finished initial loading and is ready to start
+      await FBInstant.startGameAsync();
+      setUser({
+        id: FBInstant.player.getID(),
+        name: FBInstant.player.getName(),
+        avatar: FBInstant.player.getPhoto(),
+      });
     });
   }, []);
 
